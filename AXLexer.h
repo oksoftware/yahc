@@ -12,20 +12,9 @@
 #include <vector>
 #include "AXStruct.h"
 
-class AXLexer {
+class AXLexer : public AXFile {
 	private:
 		std::istream *src;
-	public:
-		AXHeader *header;
-		std::vector<AXIR *> *code;
-		unsigned char *data;
-		std::vector<int> *label;
-		std::vector<unsigned char> *debug;
-		std::vector<AXLibDat *> *libDat;
-		std::vector<AXStructDat *> *structDat;
-		std::vector<AXStructPrm *> *structPrm;
-		std::vector<AXHpiDat *> *hpiDat;
-
 	public:
 		AXLexer(std::istream *src);
 		void lex();

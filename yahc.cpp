@@ -65,10 +65,6 @@ int main(int argc, char *argv[]){
 		return 0;
 	}
 
-	AXLexer lexer(&axfile);
-	lexer.lex();
-
-
 	axfile.close();
 
 	return 0;
