@@ -29,3 +29,4 @@ dishsp.o : dishsp.cpp
 
 AXLexer.o : AXLexer.cpp AXLexer.h AXStruct.h
 
+AXParser.o : AXParser.cpp AXParser.h AXStruct.h
