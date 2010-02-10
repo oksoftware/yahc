@@ -3,28 +3,20 @@ STRIP = strip
 CFLAGS  = -Wall
 LDFLAGS  = 
 
-YAHC_TARGET = yahc.exe
-YAHC_OBJS = yahc.o AXLexer.o
+TARGET = yahc.exe
+OBJS = yahc.o AXLexer.o dishsp.o
 
-DISHSP_TARGET = dishsp.exe
-DISHSP_OBJS = dishsp.o AXLexer.o
+all : $(TARGET)
 
-all : $(YAHC_TARGET) $(DISHSP_TARGET)
-
-$(YAHC_TARGET) : $(YAHC_OBJS)
-	$(CC) -o $(YAHC_TARGET) $(YAHC_OBJS) $(LDFLAGS) $(CFLAGS)
-	strip $(YAHC_TARGET)
-
-$(DISHSP_TARGET) : $(DISHSP_OBJS)
-	$(CC) -o $(DISHSP_TARGET) $(DISHSP_OBJS) $(LDFLAGS) $(CFLAGS)
-	strip $(DISHSP_TARGET)
+$(TARGET) : $(OBJS)
+	$(CC) -o $(TARGET) $(OBJS) $(LDFLAGS) $(CFLAGS)
+	strip $(TARGET)
 
 clean :
-	rm -f $(YAHC_TARGET) *.o *~
-	rm -f $(DISHSP_TARGET) *.o *~
+	rm -f $(TARGET) *.o *~
 
-test : $(DISHSP_TARGET)
-	.\\$(DISHSP_TARGET) start.ax
+test : $(TARGET)
+	.\\$(TARGET) --dishsp start.ax
 
 .SUFFIXES: .o .c
 
