@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 #include "dishsp.h"
 
 Dishsp::Dishsp(std::ostream *out){
@@ -32,6 +33,7 @@ void Dishsp::write(){
 	lexer->lex();
 
 	writeHeader(lexer->header);
+	writeIRs(lexer);
 
 	delete lexer;
 	return;
@@ -71,7 +73,41 @@ void Dishsp::writeHeader(AXHeader *header){
 		"\t" << setw(8) << header->maxHPIDAT << " Size of HPIDAT" << endl <<
 		"\t" << setw(8) << header->maxVARHPI << " Num of Vartype Plugins" << endl <<
 		"\t" << setw(8) << header->bootOption << " Bootup Options" << endl <<
-		"\t" << setw(8) << header->runtime << " Ptr to Runtime Name" << endl;
+		"\t" << setw(8) << header->runtime << " Ptr to Runtime Name" << endl << endl;
 	return;
 }
 
+void Dishsp::writeIRs(AXFile *axfile){
+	using namespace std;
+	int cnt = 0;
+
+	*out<<"AX IR CODE"<<endl<<endl;
+
+	for(vector<AXIR *>::iterator i = axfile->code->begin(); i != axfile->code->end(); i++){
+		*out<<hex<<right<<setw(8)<<cnt<<":"
+		    <<setw(8)<<(*i)->type;
+		*out<<endl;
+		cnt++;
+	}
+	
+	return;
+}
+
+std::vector<std::string> Dishsp::splitString(std::string haystack, std::string needle){
+	using namespace std;
+	vector<string> ret;
+	for(int i = 0, n; i <= haystack.length(); i = n + 1){
+		n = haystack.find_first_of(needle, i);
+		if(n == string::npos) n = haystack.length();
+		ret.push_back(haystack.substr(i, n - i));
+	}
+	return ret;
+}
+
+std::string Dishsp::stoi(std::string src){
+	using namespace std;
+	istringstream iss(src);
+	string ret;
+	iss>> std::hex >> ret;
+	return ret;
+}

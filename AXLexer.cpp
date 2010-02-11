@@ -128,15 +128,14 @@ AXIR *AXLexer::getIR(int *len){
 }
 
 std::vector<AXIR *> *AXLexer::getIRList(){
-	int cur;
-	int totalLen = header->pCS + header->maxCS;
+	int cur = 0;
 
 	std::vector<AXIR *> *list = new std::vector<AXIR *>();
 
 	src->seekg(header->pCS, std::ios::beg);
 
-	while(cur < totalLen){
-		int len;
+	while(cur < header->maxCS){
+		int len = 0;
 		list->push_back(getIR(&len));
 		cur += len;
 		for(std::vector<JumpToStack>::iterator i = jumpToStack.begin(); i != jumpToStack.end(); i++){

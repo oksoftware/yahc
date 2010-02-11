@@ -22,4 +22,7 @@ class Dishsp {
 		void write();
 	private:
 		void writeHeader(AXHeader *header);
+		void writeIRs(AXFile *axfile);
+		std::vector<std::string> splitString(std::string haystack, std::string needle);
+		std::string stoi(std::string src);
 };
