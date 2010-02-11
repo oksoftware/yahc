@@ -12,19 +12,26 @@
 #include <vector>
 #include "AXStruct.h"
 
+typedef struct {
+	unsigned short *jumpto, bytes;
+} JumpToStack;
+
 class AXLexer : public AXFile {
 	private:
 		std::istream *src;
+		std::vector<JumpToStack> jumpToStack;
 	public:
 		AXLexer(std::istream *src);
 		void lex();
 	private:
 		int getInt();
 		short getShort();
+		unsigned int getUnsignedInt();
+		unsigned short getUnsignedShort();
 		char getChar();
 		template <class T> std::vector<T> *getList(std::istream *src, T (*func)(), int begin, int length);
 		AXHeader *getHeader();
-		AXIR *getIR();
+		AXIR *getIR(int *len);
 		std::vector<AXIR *> *getIRList();
 		unsigned char *getDataSegment();
 		std::vector<int> *getObjectTemp();
@@ -37,4 +44,5 @@ class AXLexer : public AXFile {
 		std::vector<AXStructPrm *> *getSTRUCTPRMList();
 		AXHpiDat *getHPIDAT();
 		std::vector<AXHpiDat *> *getHPIDATList();
+		
 };

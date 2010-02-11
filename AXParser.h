@@ -9,3 +9,17 @@
  *
  */
 
+#include <vector>
+#include "AXStruct.h"
+
+class AXParser {
+	private:
+		int pos;
+		std::vector<AXStatement *> *statement;
+		std::vector<int> label;
+	public:
+		AXParser(AXFile *axfile);
+	private:
+		std::vector<AXStatement *> *readStatements();
+		AXStatement *readStatement();
+};

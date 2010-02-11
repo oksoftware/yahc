@@ -43,6 +43,18 @@ short AXLexer::getShort(){
 	return tmp;
 }
 
+unsigned int AXLexer::getUnsignedInt(){
+	unsigned int tmp = 0;
+	src->read((char *)&tmp, sizeof(tmp));
+	return tmp;
+}
+
+unsigned short AXLexer::getUnsignedShort(){
+	unsigned short tmp;
+	src->read((char *)&tmp, sizeof(tmp));
+	return tmp;
+}
+
 char AXLexer::getChar(){
 	char tmp;
 	src->read((char *)&tmp, sizeof(tmp));
@@ -86,37 +98,55 @@ AXHeader *AXLexer::getHeader(){
 	return header;
 }
 
-AXIR *AXLexer::getIR(){
+AXIR *AXLexer::getIR(int *len){
 	AXIR *ir = new AXIR;
 	unsigned short typeWord = 0;
 	bool isLong = 0;
 	
-	typeWord = (unsigned short)getShort();
+	typeWord = getUnsignedShort();
 	ir->type   = typeWord & 0x1FFF;/* CSTYPE */
 	ir->isTop  = typeWord & 0x2000;/* EXFLG_1 */
 	ir->isSepr = typeWord & 0x4000;/* EXFLG_2 */
 	isLong     = typeWord & 0x8000;/* If the IR code of these bytes is Long */
 
 	if(isLong){
-		ir->code = (unsigned int)getInt();
+		ir->code = getUnsignedInt();
+		*len = *len + 6;
 	}else{
-		ir->code = (unsigned short)getShort();
+		ir->code = getUnsignedShort();
+		*len = *len + 4;
 	}
 
 	/* TYPE_CMPCMD has an address which is for jumping to else */
 	if(ir->code == 11){
-		ir->jump = (unsigned short)getShort();
+		JumpToStack rewriter;
+		rewriter.jumpto = &(ir->jump);
+		rewriter.bytes = getUnsignedShort();
+		jumpToStack.push_back(rewriter);
 	}
 	return ir;
 }
 
 std::vector<AXIR *> *AXLexer::getIRList(){
+	int cur;
+	int totalLen = header->pCS + header->maxCS;
+
 	std::vector<AXIR *> *list = new std::vector<AXIR *>();
 
 	src->seekg(header->pCS, std::ios::beg);
 
-	while(src->tellg() < (header->pCS + header->maxCS)){
-		list->push_back(getIR());
+	while(cur < totalLen){
+		int len;
+		list->push_back(getIR(&len));
+		cur += len;
+		for(std::vector<JumpToStack>::iterator i = jumpToStack.begin(); i != jumpToStack.end(); i++){
+			(*i).bytes -= len;
+			if((*i).bytes <= 0){
+				*((*i).jumpto) = list->size() - 1;
+				jumpToStack.erase(i);
+			}
+		}
+
 	}
 
 	return list;

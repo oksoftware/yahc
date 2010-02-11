@@ -152,7 +152,11 @@ typedef struct AXCommand {
 } AXCommand;
 
 typedef struct {
-	/**/
+	bool assign;
+	union {
+		AXCommand command;
+		AXExpression expr;
+	};
 } AXStatement;
 
 #endif

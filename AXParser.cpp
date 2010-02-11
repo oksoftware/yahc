@@ -9,3 +9,9 @@
  *
  */
 
+#include "AXParser.h"
+
+AXParser::AXParser(AXFile *axfile){
+	
+	return;
+}
