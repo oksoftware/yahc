@@ -20,6 +20,7 @@ class AXLexer : public AXFile {
 	private:
 		std::istream *src;
 		std::vector<JumpToStack> jumpToStack;
+		std::vector<int> rawLabel;
 	public:
 		AXLexer(std::istream *src);
 		void lex();

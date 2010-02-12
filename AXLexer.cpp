@@ -20,9 +20,12 @@ AXLexer::AXLexer(std::istream *src){
 
 void AXLexer::lex(){
 	this->header = getHeader();
+
+	/* Read raw label first*/
+	this->rawLabel = getObjectTemp();
+
 	this->code = getIRList();
 	this->data = getDataSegment();
-	this->label = getObjectTemp();
 	this->debug = getDINFO();
 	this->libDat = getLIBDATList();
 	this->structDat = getSTRUCTDATList();
@@ -117,7 +120,7 @@ AXIR AXLexer::getIR(int *len){
 		*len = *len + 4;
 	}
 
-	/* TYPE_CMPCMD has an address which is for jumping to else */
+	/* TYPE_CMPCMD has an address which is for jumping to else or its end */
 	if(ir.code == 11){
 		JumpToStack rewriter;
 		rewriter.jumpto = &(ir.jump);
@@ -138,12 +141,24 @@ std::vector<AXIR> AXLexer::getIRList(){
 		int len = 0;
 		list.push_back(getIR(&len));
 		cur += len;
-		for(std::vector<JumpToStack>::iterator i = jumpToStack.begin(); i != jumpToStack.end(); i++){
+		/* JumpTo Stack */
+		for(std::vector<JumpToStack>::iterator i = jumpToStack.begin(); i != jumpToStack.end();){
 			(*i).bytes -= len;
 			if((*i).bytes <= 0){
 				*((*i).jumpto) = list.size() - 1;
 				jumpToStack.erase(i);
+				continue;
 			}
+			i++;
+		}
+		/* Label Stack */
+		for(std::vector<int>::iterator i = rawLabel.begin(); i != rawLabel.end();){
+			if(*i == cur){
+				label.push_back(list.size() - 1);
+				rawLabel.erase(i);
+				continue;
+			}
+			i++;
 		}
 
 	}
