@@ -159,4 +159,21 @@ typedef struct {
 	};
 } AXStatement;
 
+typedef struct {
+	bool read;
+	bool write;
+	int typeCnt;
+	int varTypes[];
+} AXComPrmInfo;
+
+typedef struct {
+	unsigned short type;
+	char typeName[];
+	unsigned int id;
+	char name[];
+	int prmCnt;
+	AXComPrmInfo prms[];
+
+} AXComInfo;
+
 #endif
