@@ -162,6 +162,7 @@ typedef struct {
 typedef struct {
 	bool read;
 	bool write;
+	bool infinite;
 	int typeCnt;
 	int varTypes[];
 } AXComPrmInfo;
