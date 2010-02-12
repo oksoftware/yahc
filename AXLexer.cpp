@@ -61,87 +61,87 @@ char AXLexer::getChar(){
 	return tmp;
 }
 
-AXHeader *AXLexer::getHeader(){
-	AXHeader *header = new AXHeader;
+AXHeader AXLexer::getHeader(){
+	AXHeader header;
 
-	src->read(header->magic, 4);
-	header->version = getInt();
-	header->maxVal = getInt();
-	header->size = getInt();
+	src->read(header.magic, 4);
+	header.version = getInt();
+	header.maxVal = getInt();
+	header.size = getInt();
 
-	header->pCS = getInt();
-	header->maxCS = getInt();
-	header->pDS = getInt();
-	header->maxDS = getInt();
+	header.pCS = getInt();
+	header.maxCS = getInt();
+	header.pDS = getInt();
+	header.maxDS = getInt();
 
-	header->pOT = getInt();
-	header->maxOT = getInt();
-	header->pDINFO = getInt();
-	header->maxDINFO = getInt();
+	header.pOT = getInt();
+	header.maxOT = getInt();
+	header.pDINFO = getInt();
+	header.maxDINFO = getInt();
 
-	header->pLINFO = getInt();
-	header->maxLINFO = getInt();
-	header->pFINFO = getInt();
-	header->maxFINFO = getInt();
+	header.pLINFO = getInt();
+	header.maxLINFO = getInt();
+	header.pFINFO = getInt();
+	header.maxFINFO = getInt();
 
-	header->pMINFO = getInt();
-	header->maxMINFO = getInt();
-	header->pFINFO2 = getInt();
-	header->maxFINFO2 = getInt();
+	header.pMINFO = getInt();
+	header.maxMINFO = getInt();
+	header.pFINFO2 = getInt();
+	header.maxFINFO2 = getInt();
 
-	header->pHPIDAT = getInt();
-	header->maxHPIDAT = getShort();
-	header->maxVARHPI = getShort();
-	header->bootOption = getInt();
-	header->runtime = getInt();
+	header.pHPIDAT = getInt();
+	header.maxHPIDAT = getShort();
+	header.maxVARHPI = getShort();
+	header.bootOption = getInt();
+	header.runtime = getInt();
 
 	return header;
 }
 
-AXIR *AXLexer::getIR(int *len){
-	AXIR *ir = new AXIR;
+AXIR AXLexer::getIR(int *len){
+	AXIR ir;
 	unsigned short typeWord = 0;
 	bool isLong = 0;
 	
 	typeWord = getUnsignedShort();
-	ir->type   = typeWord & 0x1FFF;/* CSTYPE */
-	ir->isTop  = typeWord & 0x2000;/* EXFLG_1 */
-	ir->isSepr = typeWord & 0x4000;/* EXFLG_2 */
+	ir.type   = typeWord & 0x1FFF;/* CSTYPE */
+	ir.isTop  = typeWord & 0x2000;/* EXFLG_1 */
+	ir.isSepr = typeWord & 0x4000;/* EXFLG_2 */
 	isLong     = typeWord & 0x8000;/* If the IR code of these bytes is Long */
 
 	if(isLong){
-		ir->code = getUnsignedInt();
+		ir.code = getUnsignedInt();
 		*len = *len + 6;
 	}else{
-		ir->code = getUnsignedShort();
+		ir.code = getUnsignedShort();
 		*len = *len + 4;
 	}
 
 	/* TYPE_CMPCMD has an address which is for jumping to else */
-	if(ir->code == 11){
+	if(ir.code == 11){
 		JumpToStack rewriter;
-		rewriter.jumpto = &(ir->jump);
+		rewriter.jumpto = &(ir.jump);
 		rewriter.bytes = getUnsignedShort();
 		jumpToStack.push_back(rewriter);
 	}
 	return ir;
 }
 
-std::vector<AXIR *> *AXLexer::getIRList(){
+std::vector<AXIR> AXLexer::getIRList(){
 	int cur = 0;
 
-	std::vector<AXIR *> *list = new std::vector<AXIR *>();
+	std::vector<AXIR> list;
 
-	src->seekg(header->pCS, std::ios::beg);
+	src->seekg(header.pCS, std::ios::beg);
 
-	while(cur < header->maxCS){
+	while(cur < header.maxCS){
 		int len = 0;
-		list->push_back(getIR(&len));
+		list.push_back(getIR(&len));
 		cur += len;
 		for(std::vector<JumpToStack>::iterator i = jumpToStack.begin(); i != jumpToStack.end(); i++){
 			(*i).bytes -= len;
 			if((*i).bytes <= 0){
-				*((*i).jumpto) = list->size() - 1;
+				*((*i).jumpto) = list.size() - 1;
 				jumpToStack.erase(i);
 			}
 		}
@@ -152,130 +152,130 @@ std::vector<AXIR *> *AXLexer::getIRList(){
 }
 
 unsigned char *AXLexer::getDataSegment(){
-	unsigned char *ds = new unsigned char[header->maxDS];
+	unsigned char *ds = new unsigned char[header.maxDS];
 
-	src->seekg(header->pDS, std::ios::beg);
+	src->seekg(header.pDS, std::ios::beg);
 
-	src->read((char *)ds, header->maxDS);
+	src->read((char *)ds, header.maxDS);
 
 	return ds;
 }
 
-std::vector<int> *AXLexer::getObjectTemp(){
-	std::vector<int> *list = new std::vector<int>(header->maxOT / sizeof(int));
+std::vector<int> AXLexer::getObjectTemp(){
+	std::vector<int> list(header.maxOT / sizeof(int));
 
-	src->seekg(header->pOT, std::ios::beg);
+	src->seekg(header.pOT, std::ios::beg);
 	
-	for(std::vector<int>::iterator i = list->begin(); i != list->end(); i++){
+	for(std::vector<int>::iterator i = list.begin(); i != list.end(); i++){
 		*i = getInt();
 	}
 
 	return list;
 }
 
-std::vector<unsigned char> *AXLexer::getDINFO(){
-	std::vector<unsigned char> *dinfo = new std::vector<unsigned char>(header->maxDINFO);
+std::vector<unsigned char> AXLexer::getDINFO(){
+	std::vector<unsigned char> dinfo(header.maxDINFO);
 
-	src->seekg(header->pDINFO, std::ios::beg);
+	src->seekg(header.pDINFO, std::ios::beg);
 
-	for(std::vector<unsigned char>::iterator i = dinfo->begin(); i != dinfo->end(); i++){
+	for(std::vector<unsigned char>::iterator i = dinfo.begin(); i != dinfo.end(); i++){
 		*i = (unsigned char)getChar();
 	}
 
 	return dinfo;
 }
 
-AXLibDat *AXLexer::getLIBDAT(){
-	AXLibDat *libDat = new AXLibDat;
+AXLibDat AXLexer::getLIBDAT(){
+	AXLibDat libDat;
 
-	libDat->flag = getInt();
-	libDat->nameIndex = getInt();
-	libDat->hLib = (void *)getInt();
-	libDat->clsid = getInt();
+	libDat.flag = getInt();
+	libDat.nameIndex = getInt();
+	libDat.hLib = (void *)getInt();
+	libDat.clsid = getInt();
 
 	return libDat;
 }
 
-std::vector<AXLibDat *> *AXLexer::getLIBDATList(){
-	std::vector<AXLibDat *> *list = new std::vector<AXLibDat *>();
+std::vector<AXLibDat> AXLexer::getLIBDATList(){
+	std::vector<AXLibDat> list;
 
-	src->seekg(header->pLINFO, std::ios::beg);
+	src->seekg(header.pLINFO, std::ios::beg);
 
-	while(src->tellg() < (header->pLINFO + header->maxLINFO)){
-		list->push_back(getLIBDAT());
+	while(src->tellg() < (header.pLINFO + header.maxLINFO)){
+		list.push_back(getLIBDAT());
 	}
 
 	return list;
 }
 
 
-AXStructDat *AXLexer::getSTRUCTDAT(){
-	AXStructDat *structDat = new AXStructDat;
+AXStructDat AXLexer::getSTRUCTDAT(){
+	AXStructDat structDat;
 
-	structDat->index = getShort();
-	structDat->subId = getShort();
-	structDat->prmIndex = getInt();
-	structDat->prmMax = getInt();
-	structDat->nameIndex = getInt();
-	structDat->size = getInt();
-	structDat->OTIndex = getInt();
-	structDat->proc = (void *)getInt();
+	structDat.index = getShort();
+	structDat.subId = getShort();
+	structDat.prmIndex = getInt();
+	structDat.prmMax = getInt();
+	structDat.nameIndex = getInt();
+	structDat.size = getInt();
+	structDat.OTIndex = getInt();
+	structDat.proc = (void *)getInt();
 	return structDat;
 }
 
-std::vector<AXStructDat *> *AXLexer::getSTRUCTDATList(){
-	std::vector<AXStructDat *> *list = new std::vector<AXStructDat *>();
+std::vector<AXStructDat> AXLexer::getSTRUCTDATList(){
+	std::vector<AXStructDat> list;
 
-	src->seekg(header->pFINFO, std::ios::beg);
+	src->seekg(header.pFINFO, std::ios::beg);
 
-	while(src->tellg() < (header->pFINFO + header->maxFINFO)){
-		list->push_back(getSTRUCTDAT());
+	while(src->tellg() < (header.pFINFO + header.maxFINFO)){
+		list.push_back(getSTRUCTDAT());
 	}
 
 	return list;
 }
 
-AXStructPrm *AXLexer::getSTRUCTPRM(){
-	AXStructPrm *structPrm = new AXStructPrm;
+AXStructPrm AXLexer::getSTRUCTPRM(){
+	AXStructPrm structPrm;
 
-	structPrm->mpType = getShort();
-	structPrm->subId = getShort();
-	structPrm->offset = getInt();
+	structPrm.mpType = getShort();
+	structPrm.subId = getShort();
+	structPrm.offset = getInt();
 
 	return structPrm;
 }
 
-std::vector<AXStructPrm *> *AXLexer::getSTRUCTPRMList(){
-	std::vector<AXStructPrm *> *list = new std::vector<AXStructPrm *>();
+std::vector<AXStructPrm> AXLexer::getSTRUCTPRMList(){
+	std::vector<AXStructPrm> list;
 
-	src->seekg(header->pMINFO, std::ios::beg);
+	src->seekg(header.pMINFO, std::ios::beg);
 
-	while(src->tellg() < (header->pMINFO + header->maxMINFO)){
-		list->push_back(getSTRUCTPRM());
+	while(src->tellg() < (header.pMINFO + header.maxMINFO)){
+		list.push_back(getSTRUCTPRM());
 	}
 
 	return list;
 }
 
-AXHpiDat *AXLexer::getHPIDAT(){
-	AXHpiDat *hpiDat = new AXHpiDat;
+AXHpiDat AXLexer::getHPIDAT(){
+	AXHpiDat hpiDat;
 
-	hpiDat->flag = getShort();
-	hpiDat->option = getShort();
-	hpiDat->libName = getInt();
-	hpiDat->funcName = getInt();
-	hpiDat->libPtr = (void *)getInt();
+	hpiDat.flag = getShort();
+	hpiDat.option = getShort();
+	hpiDat.libName = getInt();
+	hpiDat.funcName = getInt();
+	hpiDat.libPtr = (void *)getInt();
 
 	return hpiDat;
 }
 
-std::vector<AXHpiDat *> *AXLexer::getHPIDATList(){
-	std::vector<AXHpiDat *> *list = new std::vector<AXHpiDat *>();
+std::vector<AXHpiDat> AXLexer::getHPIDATList(){
+	std::vector<AXHpiDat> list;
 
-	src->seekg(header->pHPIDAT, std::ios::beg);
+	src->seekg(header.pHPIDAT, std::ios::beg);
 
-	while(src->tellg() < (header->pHPIDAT + header->maxHPIDAT)){
-		list->push_back(getHPIDAT());
+	while(src->tellg() < (header.pHPIDAT + header.maxHPIDAT)){
+		list.push_back(getHPIDAT());
 	}
 
 	return list;

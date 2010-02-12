@@ -29,13 +29,12 @@ void Dishsp::setInput(std::istream *in){
 }
 
 void Dishsp::write(){
-	AXLexer *lexer = new AXLexer(in);
-	lexer->lex();
+	AXLexer lexer(in);
+	lexer.lex();
 
-	writeHeader(lexer->header);
-	writeIRs(lexer);
+	writeHeader(&lexer.header);
+	writeIRs(&lexer);
 
-	delete lexer;
 	return;
 }
 
@@ -83,9 +82,9 @@ void Dishsp::writeIRs(AXFile *axfile){
 
 	*out<<"AX IR CODE"<<endl<<endl;
 
-	for(vector<AXIR *>::iterator i = axfile->code->begin(); i != axfile->code->end(); i++){
+	for(vector<AXIR>::iterator i = axfile->code.begin(); i != axfile->code.end(); i++){
 		*out<<hex<<right<<setw(8)<<cnt<<":"
-		    <<setw(8)<<(*i)->type;
+		    <<setw(8)<<(*i).type;
 		*out<<endl;
 		cnt++;
 	}

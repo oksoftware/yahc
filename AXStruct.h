@@ -80,15 +80,15 @@ typedef struct {
 
 class AXFile {
 	public:
-		AXHeader *header;
-		std::vector<AXIR *> *code;
+		AXHeader header;
+		std::vector<AXIR> code;
 		unsigned char *data;
-		std::vector<int> *label;
-		std::vector<unsigned char> *debug;
-		std::vector<AXLibDat *> *libDat;
-		std::vector<AXStructDat *> *structDat;
-		std::vector<AXStructPrm *> *structPrm;
-		std::vector<AXHpiDat *> *hpiDat;
+		std::vector<int> label;
+		std::vector<unsigned char> debug;
+		std::vector<AXLibDat> libDat;
+		std::vector<AXStructDat> structDat;
+		std::vector<AXStructPrm> structPrm;
+		std::vector<AXHpiDat> hpiDat;
 };
 
 /* AX Parser Structs */
