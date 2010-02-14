@@ -139,6 +139,10 @@ std::vector<AXIR> AXLexer::getIRList(){
 
 	while(cur < header.maxCS){
 		int len = 0;
+		/* Code Position */
+		codePos.push_back(cur);
+
+		/* Get IR */
 		list.push_back(getIR(&len));
 		cur += len;
 		/* JumpTo Stack */

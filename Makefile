@@ -13,7 +13,7 @@ $(TARGET) : $(OBJS)
 	strip $(TARGET)
 
 clean :
-	rm -f $(TARGET) *.o *~ *.exe hsptmp obj
+	rm -f $(TARGET) *.o *~ *.exe ComInfo.h hsptmp obj
 
 test : $(TARGET)
 	.\\$(TARGET) --dishsp start.ax
@@ -25,11 +25,14 @@ test : $(TARGET)
 
 yahc.o : yahc.cpp
 
-dishsp.o : dishsp.cpp
+dishsp.o : dishsp.cpp ComInfo.h
 
 AXLexer.o : AXLexer.cpp AXLexer.h AXStruct.h
 
 AXParser.o : AXParser.cpp AXParser.h AXStruct.h
+
+ComInfo.h : cominfo ComInfoConv.exe
+	ComInfoConv.exe cominfo $@
 
 ComInfoConv.exe : ComInfoConv.cpp
 	$(CC) -o $@ $< $(LDFLAGS) $(CFLAGS)

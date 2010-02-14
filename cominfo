@@ -1,25 +1,25 @@
 #Program Control Commands(3.0)
 PROGCMD	000	goto	R label
 PROGCMD	001	gosub	R label
-PROGCMD 002	return	R int,string,double,none
-PROGCMD 003	break
-PROGCMD 004	repeat	R int	R int
-PROGCMD 005	loop
-PROGCMD 006	continue	R int,none
-PROGCMD 007	wait	R int,none
-PROGCMD 008	await	R int,none
-PROGCMD 009	dim	W int	W int	...
+PROGCMD	002	return	R int,string,double,none
+PROGCMD	003	break
+PROGCMD	004	repeat	R int	R int
+PROGCMD	005	loop
+PROGCMD	006	continue	R int,none
+PROGCMD	007	wait	R int,none
+PROGCMD	008	await	R int,none
+PROGCMD	009	dim	W int	W int	...
 PROGCMD	00a	sdim	W string	W int	W int	...
 PROGCMD	00b	foreach	R int,string
-PROGCMD 00d	dimtype	W all	R int	W int	...
+PROGCMD	00d	dimtype	W all	R int	W int	...
 PROGCMD	00e	dup	W all	R all
 PROGCMD	00f	dupptr	W all	R int	R int	R int
-PROGCMD 010	end	R int,none
+PROGCMD	010	end	R int,none
 PROGCMD	011	stop
 #知るかボケ
 #PROGCMD	012	newmod	W all	
 PROGCMD	014	delmod	R all
-PROGCMD 016	mref	W all	R int
+PROGCMD	016	mref	W all	R int
 PROGCMD	017	run	R string	R string
 PROGCMD	018	exgoto	R int	R int	R int	R label
 #どんな風にパースされてるのか知らん

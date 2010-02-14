@@ -82,6 +82,7 @@ class AXFile {
 	public:
 		AXHeader header;
 		std::vector<AXIR> code;
+		std::vector<int> codePos;
 		unsigned char *data;
 		std::vector<int> label;
 		std::vector<unsigned char> debug;
@@ -164,16 +165,15 @@ typedef struct {
 	bool write;
 	bool infinite;
 	int typeCnt;
-	int varTypes[];
+	int *varTypes;
 } AXComPrmInfo;
 
 typedef struct {
 	unsigned short type;
-	char typeName[];
 	unsigned int id;
-	char name[];
+	char *name;
 	int prmCnt;
-	AXComPrmInfo prms[];
+	AXComPrmInfo *prms;
 
 } AXComInfo;
 
