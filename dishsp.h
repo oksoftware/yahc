@@ -23,6 +23,5 @@ class Dishsp {
 	private:
 		void writeHeader(AXHeader *header);
 		void writeIRs(AXFile *axfile);
-		std::vector<std::string> splitString(std::string haystack, std::string needle);
-		std::string stoi(std::string src);
+		const AXCmdInfo *findCmdById(unsigned short type, unsigned int id);
 };

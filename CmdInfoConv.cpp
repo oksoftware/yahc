@@ -33,9 +33,7 @@ class ComInfoConv {
 			int cnt = 0;
 
 
-			*dst<<"#include \"AXStruct.h\""<<endl<<endl;
-
-			*dst<<"const AXCmdInfo cmdInfoList[] = {"<<endl;
+			*dst<<"const AXCmdInfo CmdInfo::cmdInfoList[] = {"<<endl;
 
 			while(getline(*src, curline)){
 				if(curline.find("#") == 0){
@@ -60,7 +58,7 @@ class ComInfoConv {
 			}
 
 			*dst<<"\tNULL};"<<endl;
-			*dst<<"const int cmdInfoCnt = "<<cnt<<";"<<endl;
+			*dst<<"const int CmdInfo::cmdInfoCnt = "<<cnt<<";"<<endl;
 
 			return;
 		}

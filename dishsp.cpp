@@ -83,9 +83,11 @@ void Dishsp::writeIRs(AXFile *axfile){
 
 	*out<<"AX IR CODE"<<endl<<endl;
 
-	for(vector<AXIR>::iterator i = axfile->code.begin(); i != axfile->code.end(); i++){
-		*out<<hex<<right<<setw(8)<<cnt<<":"
-		    <<setw(8)<<(*i).type;
+	for(int i = 0; i < axfile->code.size(); i++){
+		*out<<hex<<right<<setw(8)<<setfill('0')<<axfile->codePos.at(i);
+		*out<<hex<<right<<setw(8)<<"("<<cnt<<"):";
+		*out<<hex<<right<<setw(8)<<setfill('0')<<axfile->code.at(i).type<<" "<<CmdInfo::typeInfoList[axfile->code.at(i).type];
+
 		*out<<endl;
 		cnt++;
 	}
@@ -93,21 +95,3 @@ void Dishsp::writeIRs(AXFile *axfile){
 	return;
 }
 
-std::vector<std::string> Dishsp::splitString(std::string haystack, std::string needle){
-	using namespace std;
-	vector<string> ret;
-	for(int i = 0, n; i <= haystack.length(); i = n + 1){
-		n = haystack.find_first_of(needle, i);
-		if(n == string::npos) n = haystack.length();
-		ret.push_back(haystack.substr(i, n - i));
-	}
-	return ret;
-}
-
-std::string Dishsp::stoi(std::string src){
-	using namespace std;
-	istringstream iss(src);
-	string ret;
-	iss>> std::hex >> ret;
-	return ret;
-}

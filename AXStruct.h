@@ -1,6 +1,9 @@
 #ifndef _AXSTRUCT
 #define _AXSTRUCT 1
 
+#include <vector>
+#include <string>
+
 /* AX Definitions */
 #define TYPE_MARK	0
 #define TYPE_VAR	1
