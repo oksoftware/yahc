@@ -11,7 +11,7 @@
 
 #include "CmdInfo.h"
 #include "CmdInfoGen.h"
-
+#include <iostream>
 const char *CmdInfo::typeInfoList[] = { "MARK", "VAR", "STRING", "DNUM", "INUM",
 			"STRUCT", "XLABEL", "LABEL", "INTCMD", "EXTCMD",
 			"EXTSYSVAR", "CMPCMD", "MODCMD", "INTFUNC", "SYSVAR",

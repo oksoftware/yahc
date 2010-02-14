@@ -81,14 +81,24 @@ void Dishsp::writeIRs(AXFile *axfile){
 	using namespace std;
 	int cnt = 0;
 
-	*out<<"AX IR CODE"<<endl<<endl;
+	*out<<"CODE SEGMENT"<<endl<<endl;
 
 	for(int i = 0; i < (int)axfile->code.size(); i++){
+		AXIR *cur;
+		cur = &(axfile->code.at(i));
+
 		/* Current Bytes of the IR */
 		*out<<hex<<right<<setw(8)<<setfill('0')<<axfile->codePos.at(i);
 		/* Current count of it */
 		*out<<hex<<right<<"("<<setw(8)<<setfill(' ')<<cnt<<"): ";
-		*out<<hex<<right<<setw(8)<<axfile->code.at(i).type<<" "<<CmdInfo::getTypeName(axfile->code.at(i).type);
+		/* hex dump and name of Type number */ 
+		*out<<hex<<right<<setw(8)<<cur->type<<" "<<CmdInfo::getTypeName(cur->type)<<"\t";
+		/* hex dump of command id */
+		*out<<hex<<right<<setw(8)<<cur->code<<" ";
+		/* name of the command */
+		const AXCmdInfo *curCmdInfo = CmdInfo::findCmdById(cur->type, cur->code);
+		if(curCmdInfo != NULL) *out<<curCmdInfo->name;
+		
 
 		*out<<endl;
 		cnt++;
