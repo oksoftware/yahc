@@ -31,8 +31,8 @@ AXLexer.o : AXLexer.cpp AXLexer.h AXStruct.h
 
 AXParser.o : AXParser.cpp AXParser.h AXStruct.h
 
-CmdInfo.h : cominfo CmdInfoConv.exe
-	CmdInfoConv.exe cominfo $@
+CmdInfo.h : cmdinfo CmdInfoConv.exe
+	CmdInfoConv.exe cmdinfo $@
 
 CmdInfoConv.exe : CmdInfoConv.cpp
 	$(CC) -o $@ $< $(LDFLAGS) $(CFLAGS)
