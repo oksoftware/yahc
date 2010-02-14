@@ -84,9 +84,11 @@ void Dishsp::writeIRs(AXFile *axfile){
 	*out<<"AX IR CODE"<<endl<<endl;
 
 	for(int i = 0; i < (int)axfile->code.size(); i++){
+		/* Current Bytes of the IR */
 		*out<<hex<<right<<setw(8)<<setfill('0')<<axfile->codePos.at(i);
+		/* Current count of it */
 		*out<<hex<<right<<"("<<setw(8)<<setfill(' ')<<cnt<<"): ";
-		*out<<hex<<right<<setw(8)<<axfile->code.at(i).type<<" "<<CmdInfo::typeInfoList[axfile->code.at(i).type];
+		*out<<hex<<right<<setw(8)<<axfile->code.at(i).type<<" "<<CmdInfo::getTypeName(axfile->code.at(i).type);
 
 		*out<<endl;
 		cnt++;

@@ -18,5 +18,6 @@ class CmdInfo {
 		static const int cmdInfoCnt;
 
 	public:
+		static const char *getTypeName(unsigned short type);
 		static const AXCmdInfo *findCmdById(unsigned short type, unsigned int id);
 };

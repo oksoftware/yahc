@@ -17,6 +17,11 @@ const char *CmdInfo::typeInfoList[] = { "MARK", "VAR", "STRING", "DNUM", "INUM",
 			"EXTSYSVAR", "CMPCMD", "MODCMD", "INTFUNC", "SYSVAR",
 			"PROGCMD", "DLLFUNC", "DLLCTRL", "USERDEF" };
 
+const char *CmdInfo::getTypeName(unsigned short type){
+	if((sizeof(typeInfoList) / sizeof(char*)) < type) return NULL;
+	return typeInfoList[type];
+}
+
 const AXCmdInfo *CmdInfo::findCmdById(unsigned short type, unsigned int id){
 	for(int i = 0; i < cmdInfoCnt; i++){
 		if(cmdInfoList[i].type == type && cmdInfoList[i].id == id){
