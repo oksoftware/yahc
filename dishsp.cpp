@@ -13,6 +13,7 @@
 #include <iomanip>
 #include <sstream>
 #include "dishsp.h"
+#include "CmdInfo.h"
 
 Dishsp::Dishsp(std::ostream *out){
 	using namespace std;

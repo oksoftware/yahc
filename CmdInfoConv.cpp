@@ -30,6 +30,7 @@ class ComInfoConv {
 			using namespace std;
 			string curline;
 			vector<string> cur;
+			vector<string> cmdList;
 			string strDst("");
 
 
@@ -42,19 +43,31 @@ class ComInfoConv {
 				cur = split(curline, "\t");
 
 				string typeName = cur.at(0);
-				string comId = cur.at(1);
-				string comName = cur.at(2);
+				string cmdId = cur.at(1);
+				string cmdName = cur.at(2);
 				/* Currently the program won't read parameters */
-				strDst += "AXComInfo com_" + comName + ";\n";
-				strDst += "com_" + comName + ".type = TYPE_" + typeName + ";\n";
-				strDst += "com_" + comName + ".id = " + comId + ";\n";
-				strDst += "com_" + comName + ".name = \"" + comName + "\";\n";
+				strDst += "AXCmdInfo cmd_" + cmdName + ";\n";
+				strDst += "cmd_" + cmdName + ".type = TYPE_" + typeName + ";\n";
+				strDst += "cmd_" + cmdName + ".id = " + cmdId + ";\n";
+				strDst += "cmd_" + cmdName + ".name = \"" + cmdName + "\";\n";
+
+				strDst += "\n";
+
+				cmdList.push_back("cmd_" + cmdName);
 
 
 			}
 
 			*dst<<"#include \"AXStruct.h\""<<endl<<endl;
-			*dst<<strDst;
+			*dst<<strDst<<endl;
+
+			*dst<<"AXCmdInfo *cmdInfoList = {"<<endl;
+
+			for(vector<string>::iterator i = cmdList.begin(); i != cmdList.end(); i++){
+				*dst<<*i<<","<<endl;
+			}
+			*dst<<"NULL};"<<endl;
+			*dst<<"const int cmdInfoCnt = "<<cmdList.size()<<";"<<endl;
 
 			return;
 		}

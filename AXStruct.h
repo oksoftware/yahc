@@ -187,15 +187,15 @@ typedef struct {
 	bool infinite;
 	int typeCnt;
 	int *varTypes;
-} AXComPrmInfo;
+} AXCmdPrmInfo;
 
 typedef struct {
 	unsigned short type;
 	unsigned int id;
 	char *name;
 	int prmCnt;
-	AXComPrmInfo *prms;
+	AXCmdPrmInfo *prms;
 
-} AXComInfo;
+} AXCmdInfo;
 
 #endif
