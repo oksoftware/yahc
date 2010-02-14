@@ -57,7 +57,7 @@ class ComInfoConv {
 
 			}
 
-			*dst<<"\tNULL};"<<endl;
+			*dst<<"\t};"<<endl;
 			*dst<<"const int CmdInfo::cmdInfoCnt = "<<cnt<<";"<<endl;
 
 			return;

@@ -20,8 +20,8 @@ test : $(TARGET)
 
 .SUFFIXES: .o .c
 
-.c.o:
-	$(CC) -c -o $@ $<
+.cpp.o:
+	$(CC) -c -o $@ $< $(CFLAGS)
 
 yahc.o : yahc.cpp
 
