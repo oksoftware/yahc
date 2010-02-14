@@ -192,7 +192,7 @@ typedef struct {
 typedef struct {
 	unsigned short type;
 	unsigned int id;
-	char *name;
+	const char *name;
 	int prmCnt;
 	AXCmdPrmInfo *prms;
 
