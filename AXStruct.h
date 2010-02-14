@@ -1,6 +1,27 @@
 #ifndef _AXSTRUCT
 #define _AXSTRUCT 1
 
+/* AX Definitions */
+#define TYPE_MARK	0
+#define TYPE_VAR	1
+#define TYPE_STRING	2
+#define TYPE_DNUM	3
+#define TYPE_INUM	4
+#define TYPE_STRUCT	5
+#define TYPE_XLABEL	6
+#define TYPE_LABEL	7
+#define TYPE_INTCMD	8
+#define TYPE_EXTCMD	9
+#define TYPE_EXTSYSVAR	10
+#define TYPE_CMPCMD	11
+#define TYPE_MODCMD	12
+#define TYPE_INTFUNC	13
+#define TYPE_SYSVAR	14
+#define TYPE_PROGCMD	15
+#define TYPE_DLLFUNC	16
+#define TYPE_DLLCTRL	17
+#define TYPE_USERDEF	18
+
 /* AX Lexer Structs */
 typedef struct {
 	char magic[4];
