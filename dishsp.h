@@ -9,6 +9,7 @@
  *
  */
 
+#include <string>
 #include <fstream>
 #include "AXLexer.h"
 
@@ -24,4 +25,5 @@ class Dishsp {
 		void writeHeader(AXHeader *header);
 		void writeIRs(AXFile *axfile);
 		const AXCmdInfo *findCmdById(unsigned short type, unsigned int id);
+		std::string paddingString(std::string src, unsigned int size);
 };

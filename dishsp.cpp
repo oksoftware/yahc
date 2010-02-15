@@ -79,6 +79,7 @@ void Dishsp::writeHeader(AXHeader *header){
 
 void Dishsp::writeIRs(AXFile *axfile){
 	using namespace std;
+	const char *markName[] = { "+", "-", "*", "/", "%", "&", "^", "=", "!=", ">", "<", ">=", "<=", ">>", "<<"};
 	int cnt = 0;
 
 	*out<<"CODE SEGMENT"<<endl<<endl;
@@ -91,16 +92,26 @@ void Dishsp::writeIRs(AXFile *axfile){
 		*out<<hex<<right<<setw(8)<<setfill('0')<<axfile->codePos.at(i);
 		/* Current count of it */
 		*out<<hex<<right<<"("<<setw(8)<<setfill(' ')<<cnt<<"): ";
+		/* Status of the IR */
+		*out<<(cur->isTop ? "^" : " ")<<" "<<(cur->isSepr ? "," : " ")<<" ";
 		/* hex dump and name of Type number */ 
-		*out<<hex<<right<<setw(8)<<cur->type<<" ";
+		*out<<hex<<right<<setw(4)<<cur->type<<" ";
 		const char *typeName = CmdInfo::getTypeName(cur->type);
-		if(typeName != NULL) *out<<CmdInfo::getTypeName(cur->type)<<"\t";
+		if(typeName != NULL) *out<<paddingString(string(CmdInfo::getTypeName(cur->type)), 10);
 
 		/* hex dump of command id */
 		*out<<hex<<right<<setw(8)<<cur->code<<" ";
 		/* name of the command */
 		const AXCmdInfo *curCmdInfo = CmdInfo::findCmdById(cur->type, cur->code);
 		if(curCmdInfo != NULL) *out<<curCmdInfo->name;
+		switch(cur->type){
+			case TYPE_MARK:
+				if(cur->code < (sizeof(markName) / sizeof(char *))) *out<<markName[cur->code];
+				break;
+			case TYPE_STRING:
+				*out<<"\""<<&(axfile->data[cur->code])<<"\"";
+				break;
+		}
 		
 
 		*out<<endl;
@@ -110,3 +121,11 @@ void Dishsp::writeIRs(AXFile *axfile){
 	return;
 }
 
+std::string Dishsp::paddingString(std::string src, unsigned int size){
+	std::string padding("");
+	if(src.size() < size){
+		for(unsigned int i; i < (size - src.size()); i++) padding += " ";
+	}
+	return src + padding;
+}
+		
