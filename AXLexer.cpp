@@ -121,11 +121,12 @@ AXIR AXLexer::getIR(int *len){
 	}
 
 	/* TYPE_CMPCMD has an address which is for jumping to else or its end */
-	if(ir.code == 11){
+	if(ir.type == TYPE_CMPCMD){
 		JumpToStack rewriter;
 		rewriter.jumpto = &(ir.jump);
 		rewriter.bytes = getUnsignedShort();
 		jumpToStack.push_back(rewriter);
+		*len = *len + 2;
 	}
 	return ir;
 }

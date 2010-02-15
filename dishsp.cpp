@@ -92,7 +92,10 @@ void Dishsp::writeIRs(AXFile *axfile){
 		/* Current count of it */
 		*out<<hex<<right<<"("<<setw(8)<<setfill(' ')<<cnt<<"): ";
 		/* hex dump and name of Type number */ 
-		*out<<hex<<right<<setw(8)<<cur->type<<" "<<CmdInfo::getTypeName(cur->type)<<"\t";
+		*out<<hex<<right<<setw(8)<<cur->type<<" ";
+		const char *typeName = CmdInfo::getTypeName(cur->type);
+		if(typeName != NULL) *out<<CmdInfo::getTypeName(cur->type)<<"\t";
+
 		/* hex dump of command id */
 		*out<<hex<<right<<setw(8)<<cur->code<<" ";
 		/* name of the command */
