@@ -108,10 +108,14 @@ void Dishsp::writeIRs(AXFile *axfile){
 			case TYPE_MARK:
 				if(cur->code < (sizeof(markName) / sizeof(char *))) *out<<markName[cur->code];
 				break;
+			case TYPE_CMPCMD:
+				*out<<"(jump to "<<cur->jump<<")";
+				break;
 			case TYPE_STRING:
 				*out<<"\""<<&(axfile->data[cur->code])<<"\"";
 				break;
 		}
+
 		
 
 		*out<<endl;
