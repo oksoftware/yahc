@@ -64,7 +64,7 @@ typedef struct {
 	bool isTop;
 	bool isSepr;
 	unsigned int code;
-	unsigned short jump;
+	unsigned int jump;
 } AXIR;
 
 typedef struct {

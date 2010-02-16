@@ -123,10 +123,15 @@ AXIR AXLexer::getIR(int *len){
 	/* TYPE_CMPCMD has an address which is for jumping to else or its end */
 	if(ir.type == TYPE_CMPCMD){
 		JumpToStack rewriter;
-		rewriter.jumpto = &(ir.jump);
-		rewriter.bytes = getUnsignedShort();
-		jumpToStack.push_back(rewriter);
+
 		*len = *len + 2;
+
+		rewriter.jumpto = &(ir.jump);
+		ir.jump = 0;
+		rewriter.bytes = getUnsignedShort() * 2 + *len;
+		std::cout<<std::hex<<rewriter.bytes<<"\n";
+
+		jumpToStack.push_back(rewriter);
 	}
 	return ir;
 }
@@ -149,8 +154,11 @@ std::vector<AXIR> AXLexer::getIRList(){
 		/* JumpTo Stack */
 		for(std::vector<JumpToStack>::iterator i = jumpToStack.begin(); i != jumpToStack.end();){
 			(*i).bytes -= len;
+			std::cout<<"Jump To Stack Iterator running"<<(*i).bytes<<std::endl;
 			if((*i).bytes <= 0){
-				*((*i).jumpto) = list.size() - 1;
+				std::cout<<"true\n";
+				*((*i).jumpto) = list.size();
+				std::cout<<*((*i).jumpto)<<"\n";
 				jumpToStack.erase(i);
 				continue;
 			}

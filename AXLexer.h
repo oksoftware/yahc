@@ -13,7 +13,7 @@
 #include "AXStruct.h"
 
 typedef struct {
-	unsigned short *jumpto, bytes;
+	unsigned int *jumpto, bytes;
 } JumpToStack;
 
 class AXLexer : public AXFile {
