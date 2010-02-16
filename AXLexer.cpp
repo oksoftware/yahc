@@ -101,7 +101,7 @@ AXHeader AXLexer::getHeader(){
 	return header;
 }
 
-AXIR AXLexer::getIR(int *len){
+AXIR AXLexer::getIR(unsigned int index, int *len){
 	AXIR ir;
 	unsigned short typeWord = 0;
 	bool isLong = 0;
@@ -126,10 +126,9 @@ AXIR AXLexer::getIR(int *len){
 
 		*len = *len + 2;
 
-		rewriter.jumpto = &(ir.jump);
+		rewriter.jumpto = index;
 		ir.jump = 0;
 		rewriter.bytes = getUnsignedShort() * 2 + *len;
-		std::cout<<std::hex<<rewriter.bytes<<"\n";
 
 		jumpToStack.push_back(rewriter);
 	}
@@ -149,16 +148,13 @@ std::vector<AXIR> AXLexer::getIRList(){
 		codePos.push_back(cur);
 
 		/* Get IR */
-		list.push_back(getIR(&len));
+		list.push_back(getIR(list.size(), &len));
 		cur += len;
 		/* JumpTo Stack */
 		for(std::vector<JumpToStack>::iterator i = jumpToStack.begin(); i != jumpToStack.end();){
 			(*i).bytes -= len;
-			std::cout<<"Jump To Stack Iterator running"<<(*i).bytes<<std::endl;
 			if((*i).bytes <= 0){
-				std::cout<<"true\n";
-				*((*i).jumpto) = list.size();
-				std::cout<<*((*i).jumpto)<<"\n";
+				list.at((*i).jumpto).jump = list.size();
 				jumpToStack.erase(i);
 				continue;
 			}

@@ -13,7 +13,7 @@
 #include "AXStruct.h"
 
 typedef struct {
-	unsigned int *jumpto, bytes;
+	unsigned int jumpto, bytes;
 } JumpToStack;
 
 class AXLexer : public AXFile {
@@ -31,7 +31,7 @@ class AXLexer : public AXFile {
 		unsigned short getUnsignedShort();
 		char getChar();
 		AXHeader getHeader();
-		AXIR getIR(int *len);
+		AXIR getIR(unsigned int index, int *len);
 		std::vector<AXIR> getIRList();
 		unsigned char *getDataSegment();
 		std::vector<int> getObjectTemp();
