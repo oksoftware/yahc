@@ -79,7 +79,7 @@ void Dishsp::writeHeader(AXHeader *header){
 
 void Dishsp::writeIRs(AXFile *axfile){
 	using namespace std;
-	const char *markName[] = { "+", "-", "*", "/", "%", "&", "^", "=", "!=", ">", "<", ">=", "<=", ">>", "<<"};
+	const char *markName[] = { "+", "-", "*", "/", "%", "&", "|", "^", "=", "!=", ">", "<", ">=", "<=", ">>", "<<"};
 	int cnt = 0;
 
 	*out<<"CODE SEGMENT"<<endl<<endl;
@@ -118,6 +118,9 @@ void Dishsp::writeIRs(AXFile *axfile){
 				break;
 			case TYPE_CMPCMD:
 				*out<<"(jump to "<<cur->jump<<")";
+				break;
+			case TYPE_LABEL:
+				*out<<"*label"<<dec<<cur->code;
 				break;
 			case TYPE_STRING:
 				*out<<"\""<<&(axfile->data[cur->code])<<"\"";
