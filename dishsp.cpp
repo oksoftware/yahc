@@ -88,8 +88,16 @@ void Dishsp::writeIRs(AXFile *axfile){
 		AXIR *cur;
 		cur = &(axfile->code.at(i));
 
+		/* Labels */
+		for(int j = 0; j < (int)axfile->label.size(); j++){
+			if(axfile->label.at(j) == i){
+				*out<<"*label"<<dec<<j<<endl;
+			}
+		}
+
+
 		/* Current Bytes of the IR */
-		*out<<hex<<right<<setw(8)<<setfill('0')<<axfile->codePos.at(i);
+		*out<<"  "<<hex<<right<<setw(8)<<setfill('0')<<axfile->codePos.at(i);
 		/* Current count of it */
 		*out<<hex<<right<<"("<<setw(8)<<setfill(' ')<<cnt<<"): ";
 		/* Status of the IR */
@@ -121,7 +129,7 @@ void Dishsp::writeIRs(AXFile *axfile){
 		*out<<endl;
 		cnt++;
 	}
-	
+
 	return;
 }
 

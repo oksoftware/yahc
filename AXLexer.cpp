@@ -162,7 +162,7 @@ std::vector<AXIR> AXLexer::getIRList(){
 		}
 		/* Label Stack */
 		for(std::vector<int>::iterator i = rawLabel.begin(); i != rawLabel.end();){
-			if(*i == cur){
+			if(*i == (cur - len)){
 				label.push_back(list.size() - 1);
 				rawLabel.erase(i);
 				continue;
@@ -191,7 +191,7 @@ std::vector<int> AXLexer::getObjectTemp(){
 	src->seekg(header.pOT, std::ios::beg);
 	
 	for(std::vector<int>::iterator i = list.begin(); i != list.end(); i++){
-		*i = getInt();
+		*i = getInt() * 2;
 	}
 
 	return list;
