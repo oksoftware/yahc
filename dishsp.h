@@ -25,6 +25,7 @@ class Dishsp {
 		void writeHeader(AXHeader *header);
 		void writeIRs(AXFile *axfile);
 		void writeLINFOs(AXFile *axfile);
+		void writeSTRUCTDATs(AXFile *axfile);
 		const AXCmdInfo *findCmdById(unsigned short type, unsigned int id);
 		std::string paddingString(std::string src, unsigned int size);
 };

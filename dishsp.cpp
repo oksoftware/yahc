@@ -36,6 +36,7 @@ void Dishsp::write(){
 	writeHeader(&lexer.header);
 	writeIRs(&lexer);
 	writeLINFOs(&lexer);
+	writeSTRUCTDATs(&lexer);
 
 	return;
 }
@@ -161,5 +162,32 @@ void Dishsp::writeLINFOs(AXFile *axfile){
 			<<setw(8)<<(unsigned int)cur.hLib<<" Handle of Lib"<<endl
 			<<setw(8)<<cur.clsid<<" CLSID"<<endl<<endl;
 	}
+
+	*out<<endl;
+
+	return;
+}
+
+void Dishsp::writeSTRUCTDATs(AXFile *axfile){
+	using namespace std;
+
+	*out<<"FUNC INFO"<<endl<<endl;
+
+	for(unsigned int i = 0; i < axfile->structDat.size(); i++){
+		AXStructDat cur = axfile->structDat.at(i);
+		*out<<"STRUCTDAT #"<<dec<<i<<endl;
+		*out<<hex<<right
+			<<setw(8)<<cur.index<<" LIBDAT Index"<<endl
+			<<setw(8)<<cur.subId<<" Struct Index"<<endl
+			<<setw(8)<<cur.prmIndex<<" STRUCTPRM(MINFO) Index"<<endl
+			<<setw(8)<<cur.prmMax<<" Count of STRUCTPRM"<<endl
+			<<setw(8)<<cur.nameIndex<<" Name Index \""<<&(axfile->data[cur.nameIndex])<<"\""<<endl
+			<<setw(8)<<cur.size<<" Struct(Stack) Size"<<endl
+			<<setw(8)<<cur.OTIndex<<" [MODULE]OT Index / [DLL] Cleanup Flags"<<endl
+			<<setw(8)<<cur.funcFlag<<" [MODULE]Func Flag / [DLL] Ptr to Proc"<<endl<<endl;
+	}
+
+	*out<<endl;
+
 	return;
 }
