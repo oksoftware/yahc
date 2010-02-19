@@ -158,7 +158,7 @@ void Dishsp::writeLINFOs(AXFile *axfile){
 		*out<<hex<<right
 			<<setw(8)<<cur.flag<<" Flags"<<endl
 			<<setw(8)<<cur.nameIndex<<" Name Index \""<<&(axfile->data[cur.nameIndex])<<"\""<<endl
-			<<setw(8)<<(unsigned int)cur.hLib<<" Ptr to Lib"<<endl
+			<<setw(8)<<(unsigned int)cur.hLib<<" Handle of Lib"<<endl
 			<<setw(8)<<cur.clsid<<" CLSID"<<endl<<endl;
 	}
 	return;
