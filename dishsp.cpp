@@ -35,6 +35,7 @@ void Dishsp::write(){
 
 	writeHeader(&lexer.header);
 	writeIRs(&lexer);
+	writeLINFOs(&lexer);
 
 	return;
 }
@@ -133,6 +134,8 @@ void Dishsp::writeIRs(AXFile *axfile){
 		cnt++;
 	}
 
+	*out<<endl;
+
 	return;
 }
 
@@ -143,4 +146,20 @@ std::string Dishsp::paddingString(std::string src, unsigned int size){
 	}
 	return src + padding;
 }
-		
+
+void Dishsp::writeLINFOs(AXFile *axfile){
+	using namespace std;
+
+	*out<<"LIB INFO"<<endl<<endl;
+	
+	for(unsigned int i = 0; i < axfile->libDat.size(); i++){
+		AXLibDat cur = axfile->libDat.at(i);
+		*out<<"LIBDAT #"<<dec<<i<<endl;
+		*out<<hex<<right
+			<<setw(8)<<cur.flag<<" Flags"<<endl
+			<<setw(8)<<cur.nameIndex<<" Name Index \""<<&(axfile->data[cur.nameIndex])<<"\""<<endl
+			<<setw(8)<<(unsigned int)cur.hLib<<" Ptr to Lib"<<endl
+			<<setw(8)<<cur.clsid<<" CLSID"<<endl<<endl;
+	}
+	return;
+}
