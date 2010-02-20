@@ -14,12 +14,17 @@
 
 class AXParser : public AXTree {
 	private:
+		std::ostream *err;
 		AXFile *axfile;
 	public:
 		AXParser(AXFile *axfile);
+		void setErrorOutput(std::ostream *err);
 		void parse();
 	private:
 		std::vector<AXStatement> readStatements(AXFile *axfile);
-		AXStatement readStatement();
+		AXStmtType detectStmtType(std::vector<AXIR> *src);
+		AXStatement readStatement(std::vector<AXIR> src);
+		AXCommand *readCommand(std::vector<AXIR> *src);
+		AXAssignment *readAssignment(std::vector<AXIR> *src);
 		std::vector<AXIR> getNextIRLine(std::vector<AXIR> *IRCode);
 };

@@ -118,19 +118,28 @@ class AXFile {
 
 /* AX Parser Structs */
 struct AXCommand;
+typedef enum {
+	ADD,
+	SUB,
+	MUL,
+	DIV,
+	MOD,
+	AND,
+	OR,
+	XOR,
+	EQ,
+	NE,
+	GT,
+	LT,
+	GTEQ,
+	LTEQ,
+	RR,
+	LR,
+	LEAF
+} AXMark;
 
 typedef struct {
-	enum {
-		VAR,
-		STRING,
-		DNUM,
-		INUM,
-		STRUCT,
-		LABEL,
-		EXTSYSVAR,
-		SYSVAR,
-		CMD
-	} type;
+	AXMark type;
 	union {
 		unsigned int id;
 		std::string *string;
@@ -171,16 +180,27 @@ typedef struct {
 } AXExpression;
 
 typedef struct AXCommand {
-	unsigned short comType;
-	unsigned int comId;
-	std::vector<AXExpression *> *args;
+	unsigned short cmdType;
+	unsigned int cmdId;
+	std::vector<AXExpression> args;
 } AXCommand;
 
 typedef struct {
-	bool assign;
+	unsigned int varId;
+	AXMark type;
+	AXExpression expr;
+} AXAssignment;
+
+typedef enum {
+	COMMAND,
+	ASSIGNMENT
+} AXStmtType;
+
+typedef struct {
+	AXStmtType type;
 	union {
-		AXCommand command;
-		AXExpression expr;
+		AXCommand *cmd;
+		AXAssignment *assign;
 	};
 } AXStatement;
 
