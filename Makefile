@@ -16,7 +16,7 @@ clean :
 	rm -f $(TARGET) *.o *~ *.exe CmdInfoGen.h hsptmp obj
 
 test : $(TARGET)
-	.\\$(TARGET) --dishsp-axir start.ax
+	.\\$(TARGET) --dishsp-script start.ax
 
 .SUFFIXES: .o .c
 

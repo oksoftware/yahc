@@ -9,6 +9,7 @@
  *
  */
 
+#include <iostream>
 #include "AXParser.h"
 
 AXParser::AXParser(AXFile *axfile){
@@ -26,21 +27,30 @@ void AXParser::parse(){
 std::vector<AXStatement> AXParser::readStatements(AXFile *axfile){
 	using namespace std;
 	vector<AXStatement> code;
+	vector<AXIR> IRCode;
 
 	IRCode = axfile->code;
+	while(IRCode.size()){
+		vector<AXIR> cur = getNextIRLine(&IRCode);
+	}
 	return code;
 }
 
-std::vector<AXIR> AXParser::getNextIRLine(){
+std::vector<AXIR> AXParser::getNextIRLine(std::vector<AXIR> *IRCode){
 	using namespace std;
+	bool isFirst = true;
 	vector<AXIR> line;
-	for(vector<AXIR>::iterator i = IRCode.begin(); i != IRCode.end();){
+	for(vector<AXIR>::iterator i = IRCode->begin(); i != IRCode->end();){
 		if((*i).isTop){
-			break;
+			if(!isFirst){
+				break;
+			}else{
+				isFirst = false;
+			}
 		}
 
 		line.push_back(*i);
-		IRCode.erase(i);
+		IRCode->erase(i);
 	}
 	return line;
 }

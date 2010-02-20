@@ -15,12 +15,11 @@
 class AXParser : public AXTree {
 	private:
 		AXFile *axfile;
-		std::vector<AXIR> IRCode;
 	public:
 		AXParser(AXFile *axfile);
 		void parse();
 	private:
 		std::vector<AXStatement> readStatements(AXFile *axfile);
 		AXStatement readStatement();
-		std::vector<AXIR> getNextIRLine();
+		std::vector<AXIR> getNextIRLine(std::vector<AXIR> *IRCode);
 };
