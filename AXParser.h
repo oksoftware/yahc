@@ -3,7 +3,7 @@
  *
  * AXParser.h : Header of HSP IR Code Parser
  *
- * Last modified: 2010/02/11
+ * Last modified: 2010/02/21
  *
  * Copyright (C) 2010 oksoftware. All rights reserved.
  *

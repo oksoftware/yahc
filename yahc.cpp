@@ -3,7 +3,7 @@
  *
  * yahc.cpp : Main Source File
  *
- * Last modified: 2010/02/10
+ * Last modified: 2010/02/21
  *
  * Copyright (C) oksoftware. All rights reserved.
  *
@@ -14,7 +14,8 @@
 #include "dishsp.h"
 
 typedef struct {
-	bool dishsp;
+	bool DishspAXIR;
+	bool DishspScript;
 	std::string input;
 	bool noInput;
 } YahcOptions;
@@ -30,13 +31,16 @@ int main(int argc, char *argv[]){
 	YahcOptions opt;
 	ifstream axfile;
 
-	opt.dishsp = false;
+	opt.DishspAXIR = false;
+	opt.DishspScript = false;
 	opt.noInput = true;
 
 	for(int i = 1; i < argc; i++){
 		string cur(argv[i]);
-		if(cur == "--dishsp"){
-			opt.dishsp = true;
+		if(cur == "--dishsp-axir"){
+			opt.DishspAXIR = true;
+		}if(cur == "--dishsp-script"){
+			opt.DishspScript = true;
 		}else if(cur == "--help"){
 			usage();
 			return 1;
@@ -58,8 +62,15 @@ int main(int argc, char *argv[]){
 		return 1;
 	}
 
-	if(opt.dishsp){
-		Dishsp dishsp(&cout);
+	if(opt.DishspAXIR){
+		Dishsp dishsp(&cout, Dishsp::MODE_AXIR);
+		dishsp.setInput(&axfile);
+		dishsp.write();
+		return 0;
+	}
+
+	if(opt.DishspScript){
+		Dishsp dishsp(&cout, Dishsp::MODE_SCRIPT);
 		dishsp.setInput(&axfile);
 		dishsp.write();
 		return 0;

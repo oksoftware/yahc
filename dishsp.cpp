@@ -3,7 +3,7 @@
  *
  * dishsp.cpp : HSP IR Code Disassembler
  *
- * Last modified: 2010/02/10
+ * Last modified: 2010/02/21
  *
  * Copyright (C) 2010 oksoftware. All rights reserved.
  *
@@ -15,12 +15,19 @@
 #include "dishsp.h"
 #include "CmdInfo.h"
 
-Dishsp::Dishsp(std::ostream *out){
+Dishsp::Dishsp(std::ostream *out, int mode){
 	using namespace std;
 	this->out = out;
 
-	*out<<"oksoftware HSP 3.2 AX Dumper"<<endl
-	    <<"Copyright(C) 2010 oksoftware. All rights reserved."<<endl<<endl;
+	if(mode == Dishsp::MODE_AXIR){
+		*out<<"oksoftware HSP 3.2 AX Dumper"<<endl
+		    <<"Copyright(C) 2010 oksoftware. All rights reserved."<<endl<<endl
+		    <<"Dumping to AX IR Code..."<<endl<<endl;
+	}else if(mode == Dishsp::MODE_SCRIPT){
+		*out<<"//oksoftware HSP 3.2 AX Dumper"<<endl
+		    <<"//Copyright(C) 2010 oksoftware. All rights reserved."<<endl<<endl
+		    <<"//Dumping to HSP Script Code..."<<endl<<endl;
+	}
 	return;
 }
 

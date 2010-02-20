@@ -18,9 +18,11 @@ class Dishsp {
 		std::ostream *out;
 		std::istream *in;
 	public:
-		Dishsp(std::ostream *out);
+		Dishsp(std::ostream *out, int mode);
 		void setInput(std::istream *in);
 		void write();
+		static const int MODE_AXIR = 0;
+		static const int MODE_SCRIPT = 1;
 	private:
 		void writeHeader(AXHeader *header);
 		void writeIRs(AXFile *axfile);
