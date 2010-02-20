@@ -37,6 +37,8 @@ void Dishsp::write(){
 	writeIRs(&lexer);
 	writeLINFOs(&lexer);
 	writeSTRUCTDATs(&lexer);
+	writeSTRUCTPRMs(&lexer);
+	writeHPIDATs(&lexer);
 
 	return;
 }
@@ -185,6 +187,46 @@ void Dishsp::writeSTRUCTDATs(AXFile *axfile){
 			<<setw(8)<<cur.size<<" Struct(Stack) Size"<<endl
 			<<setw(8)<<cur.OTIndex<<" [MODULE]OT Index / [DLL] Cleanup Flags"<<endl
 			<<setw(8)<<cur.funcFlag<<" [MODULE]Func Flag / [DLL] Ptr to Proc"<<endl<<endl;
+	}
+
+	*out<<endl;
+
+	return;
+}
+
+void Dishsp::writeSTRUCTPRMs(AXFile *axfile){
+	using namespace std;
+
+	*out<<"MOD INFO"<<endl<<endl;
+
+	for(unsigned int i = 0; i < axfile->structPrm.size(); i++){
+		AXStructPrm cur = axfile->structPrm.at(i);
+		*out<<"STRUCTPRM #"<<dec<<i<<endl;
+		*out<<hex<<right
+			<<setw(8)<<cur.mpType<<" Parameter Type"<<endl
+			<<setw(8)<<cur.subId<<" Struct Index"<<endl
+			<<setw(8)<<cur.offset<<" Offset"<<endl<<endl;
+	}
+
+	*out<<endl;
+
+	return;
+}
+
+void Dishsp::writeHPIDATs(AXFile *axfile){
+	using namespace std;
+
+	*out<<"HPI INFO"<<endl<<endl;
+
+	for(unsigned int i = 0; i < axfile->hpiDat.size(); i++){
+		AXHpiDat cur = axfile->hpiDat.at(i);
+		*out<<"HPIDAT #"<<dec<<i<<endl;
+		*out<<hex<<right
+			<<setw(8)<<cur.flag<<" Flags"<<endl
+			<<setw(8)<<cur.option<<" Options"<<endl
+			<<setw(8)<<cur.libName<<" Library Name"<<endl
+			<<setw(8)<<cur.funcName<<" Func Name"<<endl
+			<<setw(8)<<(int)cur.libPtr<<" Ptr to Lib"<<endl<<endl;
 	}
 
 	*out<<endl;
