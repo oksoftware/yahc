@@ -13,11 +13,14 @@
 #include <iomanip>
 #include <sstream>
 #include "dishsp.h"
+#include "AXLexer.h"
+#include "AXParser.h"
 #include "CmdInfo.h"
 
 Dishsp::Dishsp(std::ostream *out, int mode){
 	using namespace std;
 	this->out = out;
+	this->mode = mode;
 
 	if(mode == Dishsp::MODE_AXIR){
 		*out<<"oksoftware HSP 3.2 AX Dumper"<<endl
@@ -40,12 +43,17 @@ void Dishsp::write(){
 	AXLexer lexer(in);
 	lexer.lex();
 
-	writeHeader(&lexer.header);
-	writeIRs(&lexer);
-	writeLINFOs(&lexer);
-	writeSTRUCTDATs(&lexer);
-	writeSTRUCTPRMs(&lexer);
-	writeHPIDATs(&lexer);
+	if(mode == Dishsp::MODE_AXIR){
+		writeHeader(&lexer.header);
+		writeIRs(&lexer);
+		writeLINFOs(&lexer);
+		writeSTRUCTDATs(&lexer);
+		writeSTRUCTPRMs(&lexer);
+		writeHPIDATs(&lexer);
+	}else if(mode == Dishsp::MODE_SCRIPT){
+		AXParser parser(&lexer);
+		parser.parse();
+	}
 
 	return;
 }

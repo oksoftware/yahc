@@ -11,12 +11,13 @@
 
 #include <string>
 #include <fstream>
-#include "AXLexer.h"
+#include "AXStruct.h"
 
 class Dishsp {
 	private:
 		std::ostream *out;
 		std::istream *in;
+		int mode;
 	public:
 		Dishsp(std::ostream *out, int mode);
 		void setInput(std::istream *in);
