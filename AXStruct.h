@@ -201,4 +201,9 @@ typedef struct {
 
 } AXCmdInfo;
 
+class AXTree{
+	public:
+		std::vector<AXStatement> code;
+		std::vector<int> label;
+};
 #endif

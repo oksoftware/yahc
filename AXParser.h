@@ -12,14 +12,15 @@
 #include <vector>
 #include "AXStruct.h"
 
-class AXParser {
+class AXParser : public AXTree {
 	private:
-		int pos;
-		std::vector<AXStatement *> *statement;
-		std::vector<int> label;
+		AXFile *axfile;
+		std::vector<AXIR> IRCode;
 	public:
 		AXParser(AXFile *axfile);
+		void parse();
 	private:
-		std::vector<AXStatement *> *readStatements();
-		AXStatement *readStatement();
+		std::vector<AXStatement> readStatements(AXFile *axfile);
+		AXStatement readStatement();
+		std::vector<AXIR> getNextIRLine();
 };

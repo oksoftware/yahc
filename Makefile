@@ -4,7 +4,7 @@ CFLAGS  = -Wall
 LDFLAGS  = 
 
 TARGET = yahc.exe
-OBJS = yahc.o AXLexer.o dishsp.o CmdInfo.o
+OBJS = yahc.o AXLexer.o dishsp.o CmdInfo.o AXParser.o
 
 all : $(TARGET)
 
