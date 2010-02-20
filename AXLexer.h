@@ -14,12 +14,12 @@
 
 typedef struct {
 	unsigned int jumpto, bytes;
-} JumpToStack;
+} JumpToQueue;
 
 class AXLexer : public AXFile {
 	private:
 		std::istream *src;
-		std::vector<JumpToStack> jumpToStack;
+		std::vector<JumpToQueue> jumpToQueue;
 		std::vector<int> rawLabel;
 	public:
 		AXLexer(std::istream *src);

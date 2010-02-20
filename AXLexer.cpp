@@ -122,7 +122,7 @@ AXIR AXLexer::getIR(unsigned int index, int *len){
 
 	/* TYPE_CMPCMD has an address which is for jumping to else or its end */
 	if(ir.type == TYPE_CMPCMD){
-		JumpToStack rewriter;
+		JumpToQueue rewriter;
 
 		*len = *len + 2;
 
@@ -130,7 +130,7 @@ AXIR AXLexer::getIR(unsigned int index, int *len){
 		ir.jump = 0;
 		rewriter.bytes = getUnsignedShort() * 2 + *len;
 
-		jumpToStack.push_back(rewriter);
+		jumpToQueue.push_back(rewriter);
 	}
 	return ir;
 }
@@ -150,17 +150,17 @@ std::vector<AXIR> AXLexer::getIRList(){
 		/* Get IR */
 		list.push_back(getIR(list.size(), &len));
 		cur += len;
-		/* JumpTo Stack */
-		for(std::vector<JumpToStack>::iterator i = jumpToStack.begin(); i != jumpToStack.end();){
+		/* JumpTo Queue */
+		for(std::vector<JumpToQueue>::iterator i = jumpToQueue.begin(); i != jumpToQueue.end();){
 			(*i).bytes -= len;
 			if((*i).bytes <= 0){
 				list.at((*i).jumpto).jump = list.size();
-				jumpToStack.erase(i);
+				jumpToQueue.erase(i);
 				continue;
 			}
 			i++;
 		}
-		/* Label Stack */
+		/* Label Queue */
 		for(std::vector<int>::iterator i = rawLabel.begin(); i != rawLabel.end();){
 			if(*i == (cur - len)){
 				label.push_back(list.size() - 1);
