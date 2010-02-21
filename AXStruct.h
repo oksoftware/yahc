@@ -176,19 +176,26 @@ typedef struct AXBranch {
 } AXBranch;
 
 typedef struct {
-	bool leaf;
+	enum {
+		LEAF,
+		BRANCH
+	} type;
+	union {
+		AXBranch *branch;
+		AXLeaf *leaf;
+	};
 } AXExpression;
 
 typedef struct AXCommand {
 	unsigned short cmdType;
 	unsigned int cmdId;
-	std::vector<AXExpression> args;
+	std::vector<AXExpression *> args;
 } AXCommand;
 
 typedef struct {
 	unsigned int varId;
 	AXMark type;
-	AXExpression expr;
+	AXExpression *expr;
 } AXAssignment;
 
 typedef enum {

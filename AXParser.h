@@ -27,4 +27,5 @@ class AXParser : public AXTree {
 		AXCommand *readCommand(std::vector<AXIR> *src);
 		AXAssignment *readAssignment(std::vector<AXIR> *src);
 		std::vector<AXIR> getNextIRLine(std::vector<AXIR> *IRCode);
+		AXExpression *readExpression(std::vector<AXIR> src);
 };

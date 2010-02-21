@@ -90,3 +90,12 @@ AXAssignment *AXParser::readAssignment(std::vector<AXIR> *src){
 	AXAssignment *dst = new AXAssignment;
 	return dst;
 }
+AXExpression *AXParser::readExpression(std::vector<AXIR> src){
+	if(src.size() == 0) return NULL;
+	if(src.size() == 1 &&
+	   src.at(0).type == TYPE_MARK &&
+	   src.at(0).code == 0x3f) return NULL;
+
+	AXExpression *dst = new AXExpression;
+	return dst;
+}
