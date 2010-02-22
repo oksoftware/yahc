@@ -82,13 +82,13 @@ AXStatement AXParser::readStatement(std::vector<AXIR> src){
 }
 
 AXCommand *AXParser::readCommand(std::vector<AXIR> *src){
-	AXCommand *dst = new AXCommand;
-	return dst;
+	AXCommand *ret = new AXCommand;
+	return ret;
 }
 
 AXAssignment *AXParser::readAssignment(std::vector<AXIR> *src){
-	AXAssignment *dst = new AXAssignment;
-	return dst;
+	AXAssignment *ret = new AXAssignment;
+	return ret;
 }
 AXExpression *AXParser::readExpression(std::vector<AXIR> src){
 	if(src.size() == 0) return NULL;
@@ -96,6 +96,12 @@ AXExpression *AXParser::readExpression(std::vector<AXIR> src){
 	   src.at(0).type == TYPE_MARK &&
 	   src.at(0).code == 0x3f) return NULL;
 
-	AXExpression *dst = new AXExpression;
-	return dst;
+	AXExpression *ret = new AXExpression;
+	return ret;
+}
+std::vector<std::vector<AXIR> > AXParser::relex(std::vector<AXIR> src){
+	using namespace std;
+	vector<vector<AXIR> > ret;
+
+	return ret;
 }
