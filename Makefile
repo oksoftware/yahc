@@ -3,7 +3,7 @@ STRIP = strip
 CFLAGS  = -Wall
 LDFLAGS  = 
 
-TARGET = yahc.exe
+TARGET = yahc
 OBJS = yahc.o AXLexer.o dishsp.o CmdInfo.o AXParser.o
 
 all : $(TARGET)
@@ -13,7 +13,7 @@ $(TARGET) : $(OBJS)
 	strip $(TARGET)
 
 clean :
-	rm -f $(TARGET) *.o *~ *.exe CmdInfoGen.h hsptmp obj
+	rm -f $(TARGET) *.o *~ *.exe CmdInfoConv CmdInfoGen.h hsptmp obj
 
 test : $(TARGET)
 	.\\$(TARGET) --dishsp-script start.ax
@@ -33,8 +33,8 @@ AXParser.o : AXParser.cpp AXParser.h AXStruct.h
 
 CmdInfo.o : CmdInfo.cpp CmdInfo.h CmdInfoGen.h
 
-CmdInfoGen.h : hsp.cmdinfo CmdInfoConv.exe
-	CmdInfoConv.exe hsp.cmdinfo $@
+CmdInfoGen.h : hsp.cmdinfo CmdInfoConv
+	./CmdInfoConv hsp.cmdinfo $@
 
-CmdInfoConv.exe : CmdInfoConv.cpp
+CmdInfoConv : CmdInfoConv.cpp
 	$(CC) -o $@ $< $(LDFLAGS) $(CFLAGS)
