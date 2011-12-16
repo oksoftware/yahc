@@ -121,7 +121,7 @@ void Dishsp::writeIRs(AXFile *axfile){
 		*out<<hex<<right<<"("<<setw(8)<<setfill(' ')<<cnt<<"): ";
 		/* Status of the IR */
 		*out<<(cur->isTop ? "^" : " ")<<" "<<(cur->isSepr ? "," : " ")<<" ";
-		/* hex dump and name of Type number */ 
+		/* hex dump and name of Type number */
 		*out<<hex<<right<<setw(4)<<cur->type<<" ";
 		const char *typeName = CmdInfo::getTypeName(cur->type);
 		if(typeName != NULL) *out<<paddingString(string(CmdInfo::getTypeName(cur->type)), 10);
@@ -146,7 +146,7 @@ void Dishsp::writeIRs(AXFile *axfile){
 				break;
 		}
 
-		
+
 
 		*out<<endl;
 		cnt++;
@@ -169,7 +169,7 @@ void Dishsp::writeLINFOs(AXFile *axfile){
 	using namespace std;
 
 	*out<<"LIB INFO"<<endl<<endl;
-	
+
 	for(unsigned int i = 0; i < axfile->libDat.size(); i++){
 		AXLibDat cur = axfile->libDat.at(i);
 		*out<<"LIBDAT #"<<dec<<i<<endl;

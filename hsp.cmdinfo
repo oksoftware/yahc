@@ -17,7 +17,7 @@ PROGCMD	00f	dupptr	W all	R int	R int	R int
 PROGCMD	010	end	R int,none
 PROGCMD	011	stop
 #’m‚é‚©ƒ{ƒP
-#PROGCMD	012	newmod	W all	
+#PROGCMD	012	newmod	W all
 PROGCMD	014	delmod	R all
 PROGCMD	016	mref	W all	R int
 PROGCMD	017	run	R string	R string
@@ -29,11 +29,11 @@ PROGCMD	01b	assert	R int
 PROGCMD	01c	logmes	R string
 #onŒn–½—ß‚ÍŒã‚Å’²‚×‚é‚Á‚Ä‚±‚Æ‚Å
 #Enhanced Command(2.6)
-INTCMD	10000	onexit	
-INTCMD	10001	onerror	
-INTCMD	10002	onkey	
-INTCMD	10003	onclick	
-INTCMD	10004	oncmd	
+INTCMD	10000	onexit
+INTCMD	10001	onerror
+INTCMD	10002	onkey
+INTCMD	10003	onclick
+INTCMD	10004	oncmd
 INTCMD	011	exist	R string
 INTCMD	012	delete	R string
 INTCMD	013	mkdir	R string

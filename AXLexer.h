@@ -44,5 +44,5 @@ class AXLexer : public AXFile {
 		std::vector<AXStructPrm> getSTRUCTPRMList();
 		AXHpiDat getHPIDAT();
 		std::vector<AXHpiDat> getHPIDATList();
-		
+
 };

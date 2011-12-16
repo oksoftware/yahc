@@ -105,7 +105,7 @@ AXIR AXLexer::getIR(unsigned int index, int *len){
 	AXIR ir;
 	unsigned short typeWord = 0;
 	bool isLong = 0;
-	
+
 	typeWord = getUnsignedShort();
 	ir.type   = typeWord & 0x1FFF;/* CSTYPE */
 	ir.isTop  = typeWord & 0x2000;/* EXFLG_1 */
@@ -189,7 +189,7 @@ std::vector<int> AXLexer::getObjectTemp(){
 	std::vector<int> list(header.maxOT / sizeof(int));
 
 	src->seekg(header.pOT, std::ios::beg);
-	
+
 	for(std::vector<int>::iterator i = list.begin(); i != list.end(); i++){
 		*i = getInt() * 2;
 	}
