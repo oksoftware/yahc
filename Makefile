@@ -1,7 +1,7 @@
 CC = g++
 STRIP = strip
 CFLAGS  = -Wall
-LDFLAGS  = 
+LDFLAGS  =
 
 TARGET = yahc
 OBJS = yahc.o AXLexer.o dishsp.o CmdInfo.o AXParser.o

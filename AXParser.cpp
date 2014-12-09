@@ -72,7 +72,7 @@ AXStmtType AXParser::detectStmtType(std::vector<AXIR> *src){
 AXStatement AXParser::readStatement(std::vector<AXIR> src){
 	AXStatement ret;
 	ret.type = detectStmtType(&src);
-	
+
 	if(ret.type == COMMAND){
 		ret.cmd = readCommand(&src);
 	}else if(ret.type == ASSIGNMENT){
